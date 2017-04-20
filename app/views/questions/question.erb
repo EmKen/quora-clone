@@ -35,7 +35,7 @@
 		<%= User.find(a.user_id).first_name %> <%= User.find(a.user_id).last_name %>,
 		<%= a.created_at %> </p>
 		<% @comments = AnswerComment.where(answer_id: a.id).size %>
-		<a href="/answer/<%=a.id%>/answer_comments" >
+		<a id="comment_page" href="/answer/<%=a.id%>/answer_comments" >
 		<%if @comments > 0 %> Comments <%=@comments%> <% else %> Comment <% end %> </a>
 
 		<% @vote = AnswerVote.find_by(user_id: current_user.id, answer_id: a.id) %>

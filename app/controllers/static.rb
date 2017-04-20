@@ -127,10 +127,12 @@ get "/answer/:id/answer_comments" do
 end
 
 post "/answer_comments" do
-	answer_comment = AnswerComment.new(params[:answer_comment])
-	answer_comment.user_id = current_user.id
-	if answer_comment.save
-		redirect request.env["HTTP_REFERER"]
+	@answer_comment = AnswerComment.new(params[:answer_comment])
+	@answer_comment.user_id = current_user.id
+	if @answer_comment.save
+		@answer = @answer_comment.answer
+		#redirect request.env["HTTP_REFERER"]
+		erb :"answers/comments", layout: false
 	end
 end
 
