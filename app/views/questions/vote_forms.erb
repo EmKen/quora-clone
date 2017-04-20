@@ -1,0 +1,24 @@
+<% vote = AnswerVote.find_by(user_id: current_user.id, answer_id: a.id) %>
+<% upvotes = AnswerVote.where(vote: "up", answer_id: a.id) %>
+<% if vote.nil? %>
+<form class="add_vote" action="/answer_votes" method="post">
+	<input type="hidden" name="answer_vote[answer_id]" value="<%= a.id %>" >
+	<input type="hidden" name="answer_vote[vote]" value="up" >
+	<input id="submit" type="submit" value="Upvote" >
+</form>
+<form class="add_vote" action="/answer_votes" method="post">
+	<input type="hidden" name="answer_vote[answer_id]" value="<%= a.id %>" >
+	<input type="hidden" name="answer_vote[vote]" value="down" >
+	<input id="submit" type="submit" value="Downvote" >
+</form>
+<% elsif vote.vote == "up" %>
+<form class="delete_vote" action="/answer_votes/<%=vote.id%>" method="post">
+	<input id="hidden" type="hidden" name="_method" value="delete">
+	<input id="submit" type="submit" value="Upvoted | <%=upvotes.size%>">
+</form>
+<% elsif vote.vote == "down" %>
+<form class="delete_vote" action="/answer_votes/<%=vote.id%>" method="post">
+	<input id="hidden" type="hidden" name="_method" value="delete">
+	<input id="submit" type="submit" value="Downvoted">
+</form>
+<% end %>

@@ -108,29 +108,31 @@ end
 post "/answer_votes" do
 	answer_vote = AnswerVote.new(params[:answer_vote])
 	answer_vote.user_id = current_user.id
+	upvotes = AnswerVote.where(vote: "up", answer_id: answer_vote.answer_id)
 	if answer_vote.save
-		redirect request.env["HTTP_REFERER"]
-		#redirect "/questions/#{Answer.find(answer_vote.answer_id).question_id}"
+		erb :"questions/vote_forms", layout: false,  locals: { a: answer_vote.answer}
 	end
 end
 
 delete '/answer_votes/:id' do
 	answer_vote = AnswerVote.find(params[:id])
 	answer_vote.destroy
-	redirect request.env["HTTP_REFERER"]
-	#redirect "/questions/#{Answer.find(answer_vote.answer_id).question_id}"
+	#redirect request.env["HTTP_REFERER"]
+	erb :"questions/vote_forms", layout: false,  locals: { a: answer_vote.answer}
 end
 
 get "/answer/:id/answer_comments" do
 	@answer = Answer.find(params[:id])
-	erb :"answers/answer_comments"
+	erb :"answers/answer_comments", layout: false
 end
 
 post "/answer_comments" do
-	answer_comment = AnswerComment.new(params[:answer_comment])
-	answer_comment.user_id = current_user.id
-	if answer_comment.save
-		redirect request.env["HTTP_REFERER"]
+	@answer_comment = AnswerComment.new(params[:answer_comment])
+	@answer_comment.user_id = current_user.id
+	if @answer_comment.save
+		@answer = @answer_comment.answer
+		#redirect request.env["HTTP_REFERER"]
+		erb :"answers/comments", layout: false
 	end
 end
 

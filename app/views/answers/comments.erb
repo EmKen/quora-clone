@@ -1,0 +1,7 @@
+<% @answer.answer_comments.order(created_at: :desc).each do |c| %>
+	<div>
+		<p> "<%= c.comment %>" </p> 
+		<h6> <%= User.find(c.user_id).first_name %> <%= User.find(c.user_id).last_name %>,
+		<%= c.created_at %> </h6>
+	</div>
+<% end %>	
