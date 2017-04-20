@@ -123,7 +123,7 @@ end
 
 get "/answer/:id/answer_comments" do
 	@answer = Answer.find(params[:id])
-	erb :"answers/answer_comments"
+	erb :"answers/answer_comments", layout: false
 end
 
 post "/answer_comments" do

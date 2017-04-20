@@ -34,10 +34,6 @@
 		<p> "<%= a.text %>" </br> 
 		<%= User.find(a.user_id).first_name %> <%= User.find(a.user_id).last_name %>,
 		<%= a.created_at %> </p>
-		<% @comments = AnswerComment.where(answer_id: a.id).size %>
-		<a id="comment_page" href="/answer/<%=a.id%>/answer_comments" >
-		<%if @comments > 0 %> Comments <%=@comments%> <% else %> Comment <% end %> </a>
-
 		<% @vote = AnswerVote.find_by(user_id: current_user.id, answer_id: a.id) %>
 		<% @upvotes = AnswerVote.where(vote: "up", answer_id: a.id) %>
 		<% if @vote.nil? %>
@@ -62,6 +58,10 @@
 				<input type="submit" value="Downvoted">
 			</form>
 		<% end %>
+		<% @comments = AnswerComment.where(answer_id: a.id).size %>
+		<a id="comment_page" href="/answer/<%=a.id%>/answer_comments" >
+		<%if @comments > 0 %> Comments <%=@comments%> <% else %> Comment <% end %> </a>
+		<div id="show_comments"></div>
 	</div>
 	</br> </br>
 <% end %>	
