@@ -39,4 +39,25 @@ $(document).ready(function(){
 			}
 		})
 	})
+
+		$(".voting").on("submit", "form", function(event) {
+			var url = $(event.target).attr("action");
+			var parent = $(event.target).parent()
+			event.preventDefault();
+			//$('input[type=submit]').attr("disabled", true);
+			$.ajax({
+				url: url,
+				method: 'POST',
+				data: $(this).serialize(),
+				dataType: 'html',
+				success: function(data) {
+					parent.html(data);
+					//$('form input[type=submit]').attr("disabled", false);
+				},
+				error: function(data) {
+					alert("Problem")
+				}
+			})
+		})
+
 });
